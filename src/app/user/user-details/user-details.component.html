@@ -1,1 +1,130 @@
-<p>user-details works!</p>
+<div class="container mt-5">
+    <div class="main-body">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="main-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item">User</li>
+                <li class="breadcrumb-item active" aria-current="page">User Details</li>
+            </ol>
+        </nav>
+        <!-- /Breadcrumb -->
+        
+        <div class="row gutters-sm">
+            <!-- Profil Sidebar -->
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-header">Profile Picture</div>
+                    <div class="card-body text-center">
+                        <img src="assets/img/user-icon.png" alt="Admin" class="rounded-circle" width="150">
+                        <div class="mt-4">
+                            <h4 class="font-weight-bold text-primary">{{ user.name }}</h4>
+                            <p class="text-muted">{{ user.company.name }}</p>
+                            <p class="text-secondary mb-1">{{ user.website }}</p>
+                            <button class="btn btn-outline-primary me-2 mt-3">Edit</button>
+                            <button class="btn btn-outline-danger mt-3">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Account Details</div>
+                    <div class="card-body">
+                        <div [class.disabled]="true">
+                        <form>
+                            <!-- Form Group (name)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputName">Name</label>
+                                <input class="form-control" id="inputName" type="text" value="{{ user.name }}">
+                            </div>
+                            <!-- Form Group (username)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputUsername">Username</label>
+                                <input class="form-control" id="inputUsername" type="text" value="{{ user.username }}">
+                            </div>
+                            <!-- Form Group (email)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputEmail">Email</label>
+                                <input class="form-control" id="inputEmail" type="email" value="{{ user.email }}">
+                            </div>
+                            <!-- Form Row-->
+                            <h4 class="mb-0 font-weight-bold"><hr>Address<hr></h4>
+                            <div class="row gx-3 mb-3">
+                                <!-- Form Group (first name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputStreet">Street</label>
+                                    <input class="form-control" id="inputStreet" type="text" value="{{ user.address.street }}">
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputSuite">Suite</label>
+                                    <input class="form-control" id="inputSuite" type="text" value="{{ user.address.suite }}">
+                                </div>
+                                </div>
+                                <div class="row gx-3 mb-3">
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputCity">City</label>
+                                    <input class="form-control" id="inputCity" type="text" value="{{ user.address.city }}">
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputZipcode">Zipcode</label>
+                                    <input class="form-control" id="inputZipcode" type="text" value="{{ user.address.zipcode }}">
+                                </div>
+                            </div>
+                                <div class="row gx-3 mb-3">
+                                    <!-- Form Group (last name)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="inputLatitude">Latitude</label>
+                                        <input class="form-control" id="inputLatitude" type="text" value="{{ user.address.geo.lat }}">
+                                    </div>
+                                    <!-- Form Group (last name)-->
+                                    <div class="col-md-6">
+                                        <label class="small mb-1" for="inputLongitude">Longitude</label>
+                                        <input class="form-control" id="inputLongitude" type="text" value="{{ user.address.geo.lng }}">
+                                    </div>
+                                
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputPhone">Phone</label>
+                                <input class="form-control" id="inputPhone" type="phone" value="{{ user.phone }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputWebsite">Website</label>
+                                <input class="form-control" id="inputWebsite" type="text" value="{{ user.website }}">
+                            </div>
+                            <!-- Form Row-->
+                            <h4 class="mb-0 font-weight-bold"><hr>Company<hr></h4>
+                            <div class="row gx-3 mb-3">
+                                <!-- Form Group (first name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputCompanyName">Company name</label>
+                                    <input class="form-control" id="inputCompanyName" type="text" value="{{ user.company.name }}">
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputCatchPhrase">CatchPhrase</label>
+                                    <input class="form-control" id="inputCatchPhrase" type="text" value="{{ user.company.catchPhrase }}">
+                                </div>
+                                </div>
+                                <div class="row gx-3 mb-3">
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputBS">BS</label>
+                                    <input class="form-control" id="inputBS" type="text" value="{{ user.company.bs }}">
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
