@@ -1,1 +1,53 @@
-<p>user-form works!</p>
+<div class="user-form-container">
+    <h2>{{ userId ? 'Edit User' : 'Add User' }}</h2>
+  
+    <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+      <!-- Name Field -->
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          placeholder="Enter user name"
+          required
+        />
+        <!-- <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+          <small class="error">Name is required.</small>
+        </div> -->
+      </div>
+  
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          placeholder="Enter user email"
+          required
+        />
+        <!-- <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+          <small class="error">A valid email is required.</small>
+        </div> -->
+      </div>
+  
+      <!-- Role Field -->
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <select id="role" formControlName="role" required>
+          <option value="">Select a role</option>
+          <option value="admin">Admin</option>
+          <option value="editor">Editor</option>
+          <option value="viewer">Viewer</option>
+        </select>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button type="submit" [disabled]="userForm.invalid">
+          {{ userId ? 'Update User' : 'Add User' }}
+        </button>
+      </div>
+    </form>
+  </div>
