@@ -1,53 +1,117 @@
-<div class="user-form-container">
-    <h2>{{ userId ? 'Edit User' : 'Add User' }}</h2>
-  
-    <form [formGroup]="userForm" (ngSubmit)="saveUser()">
-      <!-- Name Field -->
-      <div class="form-group">
-        <label for="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          formControlName="name"
-          placeholder="Enter user name"
-          required
-        />
-        <!-- <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
-          <small class="error">Name is required.</small>
-        </div> -->
+<div class="container mt-5">
+  <div class="main-body">
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" class="main-breadcrumb">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item">Home</li>
+              <li class="breadcrumb-item">User</li>
+              <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+          </ol>
+      </nav>
+      <!-- /Breadcrumb -->
+
+      <div class="row gutters-sm">
+          <!-- Profile Sidebar -->
+          <div class="col-md-4 mb-3">
+              <div class="card shadow-sm">
+                  <div class="card-header">Profile Picture</div>
+                  <div class="card-body text-center">
+                      <img src="assets/img/user-icon.png" alt="Admin" class="rounded-circle" width="150">
+                      <div class="mt-4">
+                          <h4 class="font-weight-bold text-primary">{{ user.name }}</h4>
+                          <p class="text-muted">{{ user.company.name }}</p>
+                          <p class="text-secondary mb-1">{{ user.website }}</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-xl-8">
+              <!-- Edit User Form -->
+              <div class="card mb-4">
+                  <div class="card-header">Edit User Details</div>
+                  <div class="card-body">
+                      <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+                          <!-- Form Group (name)-->
+                          <div class="mb-3">
+                              <label class="small mb-1" for="inputName">Name</label>
+                              <input class="form-control" id="inputName" formControlName="name" type="text">
+                          </div>
+                          <!-- Form Group (username)-->
+                          <div class="mb-3">
+                              <label class="small mb-1" for="inputUsername">Username</label>
+                              <input class="form-control" id="inputUsername" formControlName="username" type="text">
+                          </div>
+                          <!-- Form Group (email)-->
+                          <div class="mb-3">
+                              <label class="small mb-1" for="inputEmail">Email</label>
+                              <input class="form-control" id="inputEmail" formControlName="email" type="email">
+                          </div>
+                          <!-- Address Section -->
+                          <h4 class="mb-0 font-weight-bold"><hr>Address<hr></h4>
+                          <div class="row gx-3 mb-3">
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputStreet">Street</label>
+                                  <input class="form-control" id="inputStreet" formControlName="street" type="text">
+                              </div>
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputSuite">Suite</label>
+                                  <input class="form-control" id="inputSuite" formControlName="suite" type="text">
+                              </div>
+                          </div>
+                          <div class="row gx-3 mb-3">
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputCity">City</label>
+                                  <input class="form-control" id="inputCity" formControlName="city" type="text">
+                              </div>
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputZipcode">Zipcode</label>
+                                  <input class="form-control" id="inputZipcode" formControlName="zipcode" type="text">
+                              </div>
+                          </div>
+                          <div class="row gx-3 mb-3">
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputLatitude">Latitude</label>
+                                  <input class="form-control" id="inputLatitude" formControlName="latitude" type="text">
+                              </div>
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputLongitude">Longitude</label>
+                                  <input class="form-control" id="inputLongitude" formControlName="longitude" type="text">
+                              </div>
+                          </div>
+                          <hr>
+                          <!-- Phone and Website -->
+                          <div class="mb-3">
+                              <label class="small mb-1" for="inputPhone">Phone</label>
+                              <input class="form-control" id="inputPhone" formControlName="phone" type="text">
+                          </div>
+                          <div class="mb-3">
+                              <label class="small mb-1" for="inputWebsite">Website</label>
+                              <input class="form-control" id="inputWebsite" formControlName="website" type="text">
+                          </div>
+                          <!-- Company Section -->
+                          <h4 class="mb-0 font-weight-bold"><hr>Company<hr></h4>
+                          <div class="row gx-3 mb-3">
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputCompanyName">Company Name</label>
+                                  <input class="form-control" id="inputCompanyName" formControlName="companyName" type="text">
+                              </div>
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputCatchPhrase">CatchPhrase</label>
+                                  <input class="form-control" id="inputCatchPhrase" formControlName="catchPhrase" type="text">
+                              </div>
+                          </div>
+                          <div class="row gx-3 mb-3">
+                              <div class="col-md-6">
+                                  <label class="small mb-1" for="inputBS">BS</label>
+                                  <input class="form-control" id="inputBS" formControlName="bs" type="text">
+                              </div>
+                          </div>
+                          <button class="btn btn-primary mt-3" type="submit">Save Changes</button>
+                      </form>
+                  </div>
+              </div>
+          </div>
       </div>
-  
-      <!-- Email Field -->
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          formControlName="email"
-          placeholder="Enter user email"
-          required
-        />
-        <!-- <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
-          <small class="error">A valid email is required.</small>
-        </div> -->
-      </div>
-  
-      <!-- Role Field -->
-      <div class="form-group">
-        <label for="role">Role:</label>
-        <select id="role" formControlName="role" required>
-          <option value="">Select a role</option>
-          <option value="admin">Admin</option>
-          <option value="editor">Editor</option>
-          <option value="viewer">Viewer</option>
-        </select>
-      </div>
-  
-      <!-- Submit Button -->
-      <div class="form-actions">
-        <button type="submit" [disabled]="userForm.invalid">
-          {{ userId ? 'Update User' : 'Add User' }}
-        </button>
-      </div>
-    </form>
   </div>
+</div>
