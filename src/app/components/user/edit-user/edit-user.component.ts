@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { User } from '../user-modal';
-import { UserService } from '../../services/userService/user.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { User } from '../../../models/user-model';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-edit-user',

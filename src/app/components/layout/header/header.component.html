@@ -23,24 +23,24 @@
             </ul>
             <ul class="navbar-nav my-3 my-lg-0 d-lg-none">
                 <li class="nav-item me-4">
-                    <a class="nav-link" href="#">
+                    <a [routerLink]="['/login']" class="nav-link">
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
                 <li class="nav-item me-4">
-                    <a class="nav-link" href="#">
+                    <a [routerLink]="['/users']" class="nav-link" href="#">
                         <i class="fas fa-users"></i> Users List
                     </a>
                 </li>
                 <li class="nav-item me-4">
-                    <a class="nav-link" href="#">
+                    <a [routerLink]="['/add-user']" class="nav-link">
                         <i class="fas fa-user-plus"></i> Add User
                     </a>
                 </li>
             </ul>
             <div class="ms-lg-auto">
-                <a class="btn btn-outline-primary me-2" href="#">Sign In</a>
-                <a class="btn btn-primary" href="#">Sign Up</a>
+                <a [routerLink]="['/login']" class="btn btn-outline-primary me-2">Sign In</a>
+                <a [routerLink]="['/add-user']" class="btn btn-primary" href="#">Sign Up</a>
             </div>
         </div>
     </div>

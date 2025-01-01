@@ -1,15 +1,19 @@
 import { Routes } from '@angular/router';
-import { UserListComponent } from './user/user-list/user-list.component';
-import { UserDetailsComponent } from './user/user-details/user-details.component';
-import { UserFormComponent } from './user/user-form/user-form.component';
-import { CreateUserComponent } from './user/create-user/create-user.component';
-import { EditUserComponent } from './user/edit-user/edit-user.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { CreateUserComponent } from './components/user/create-user/create-user.component';
+import { EditUserComponent } from './components/user/edit-user/edit-user.component';
+import { UserDetailsComponent } from './components/user/user-details/user-details.component';
+import { UserListComponent } from './components/user/user-list/user-list.component';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'users',
+        redirectTo: 'login',
         pathMatch: 'full',
+    },
+    {
+        path: 'login',
+        component: LoginComponent
     },
     {
         path: 'users',

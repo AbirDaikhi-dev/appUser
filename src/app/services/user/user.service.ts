@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../../user/user-modal';
 import * as bcrypt from 'bcryptjs'; 
 import { v4 as uuidv4 } from 'uuid';
+import { User } from '../../models/user-model';
 
 @Injectable({
   providedIn: 'root',
