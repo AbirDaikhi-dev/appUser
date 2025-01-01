@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../user-modal';
 import { HttpClientModule } from '@angular/common/http';
-import { UserService } from '../../services/userService/user.service';
 import { RouterModule } from '@angular/router'; 
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../../models/user-model';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-user-list',

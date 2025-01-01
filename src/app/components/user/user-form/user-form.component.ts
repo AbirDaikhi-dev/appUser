@@ -1,13 +1,13 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { User } from '../user-modal';
 import { HttpClientModule } from '@angular/common/http';
-import { UserService } from '../../services/userService/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar'; // Angular Material SnackBar
 import { MatDialog } from '@angular/material/dialog'; // Angular Material Dialog
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { User } from '../../../models/user-model';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-user-form',

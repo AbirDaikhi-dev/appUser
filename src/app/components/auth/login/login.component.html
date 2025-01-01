@@ -1,0 +1,78 @@
+<div class="container mt-5">
+    <section class="vh-100">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-6 text-black">
+            <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+              <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <h3 class="fw-normal mb-3 pb-3">Log in</h3>
+  
+                <!-- Email Field -->
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    class="form-control" 
+                    formControlName="email" 
+                    required 
+                  />
+                  <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+                    <small *ngIf="loginForm.get('email')?.hasError('required')">Email is required.</small>
+                    <small *ngIf="loginForm.get('email')?.hasError('email')">Please enter a valid email address.</small>
+                  </div>
+                </div>
+  
+                <!-- Password Field -->
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input 
+                    type="password" 
+                    id="password" 
+                    class="form-control" 
+                    formControlName="password" 
+                    required 
+                  />
+                  <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+                    <small *ngIf="loginForm.get('password')?.hasError('required')">Password is required.</small>
+                    <small *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</small>
+                  </div>
+                </div>
+                  
+                <!-- Login Error Message (if any) -->
+                <div *ngIf="errorMessage" class="text-danger mt-3">
+                    <small>{{ errorMessage }}</small>
+                  </div>
+  
+                <!-- Login Button -->
+                <div class="pt-1 mb-4">
+                  <button 
+                    class="btn btn-info btn-lg btn-block" 
+                    type="submit" 
+                    [disabled]="loginForm.invalid"
+                  >
+                    Login
+                  </button>
+                </div>
+
+  
+                <!-- Register Link -->
+                <p>Don't have an account? <a href="#!" class="link-info">Register here</a></p>
+  
+              </form>
+            </div>
+          </div>
+  
+          <!-- Image Section (Visible only on large screens) -->
+          <div class="col-sm-6 px-0 d-none d-sm-block">
+            <img 
+              src="assets/img/login-page.jpg" 
+              alt="Login image" 
+              class="w-100 login-image" 
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
