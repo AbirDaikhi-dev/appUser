@@ -1,16 +1,21 @@
 
-@if (user) {<div class="container mt-5">
+
+@if (user) {
+<div class="container mt-5">
     <div class="main-body">
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="main-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Home</li>
                 <li class="breadcrumb-item">User</li>
-                <li class="breadcrumb-item active" aria-current="page">User Details</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit User</li>
             </ol>
         </nav>
         <!-- /Breadcrumb -->
-<app-user-form [mode]="'details'"  [user]="user"></app-user-form>
+    
+         
+<app-user-form [mode]="'edit'" [user]="user"></app-user-form>
 </div>
 </div>
 }
+
