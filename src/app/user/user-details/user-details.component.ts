@@ -1,36 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserService } from '../../services/userService/user.service';
+import { HttpClientModule } from '@angular/common/http';
+import { User } from '../user-modal';
+import { ActivatedRoute } from '@angular/router';
+import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
   selector: 'app-user-details',
-  standalone: true,
-  imports: [],
+  standalone: true,  
+  imports: [ HttpClientModule, UserFormComponent],
+  providers: [UserService],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
 export class UserDetailsComponent {
 
-  user = {
-    "id": 1,
-    "name": "Leanne Graham",
-    "username": "Bret",
-    "email": "Sincere@april.biz",
-    "address": {
-      "street": "Kulas Light",
-      "suite": "Apt. 556",
-      "city": "Gwenborough",
-      "zipcode": "92998-3874",
-      "geo": {
-        "lat": "-37.3159",
-        "lng": "81.1496"
+  private router = inject(ActivatedRoute);
+  private userService = inject(UserService);
+  user!: User;
+  errorMessage: string = 'Cannot Fetch User'; 
+ 
+ 
+   ngOnInit() {
+    this.router.params.subscribe((params) => {
+      const userId = params['id']; 
+      console.log(userId);
+      if (userId) {
+        this.fetchUserDetail(userId);
       }
-    },
-    "phone": "1-770-736-8031 x56442",
-    "website": "hildegard.org",
-    "company": {
-      "name": "Romaguera-Crona",
-      "catchPhrase": "Multi-layered client-server neural-net",
-      "bs": "harness real-time e-markets"
-    }
+    });
+    
+   }
+  fetchUserDetail(userId: any) {
+    this.userService.getUser(userId).subscribe({
+      next: (data) => {
+        this.user = data;
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Failed to fetch user.';
+      }
+    });
   }
-
 }

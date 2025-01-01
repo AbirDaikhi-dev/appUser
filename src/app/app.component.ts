@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { UserDetailsComponent } from './user/user-details/user-details.component';
-import { UserListComponent } from './user/user-list/user-list.component';
-import { UserFormComponent } from './user/user-form/user-form.component';
+import { HeaderComponent } from "./user/header/header.component";
+import { FooterComponent } from "./user/footer/footer.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -1,63 +1,43 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '../user-modal';
+import { HttpClientModule } from '@angular/common/http';
+import { UserService } from '../../services/userService/user.service';
+import { RouterModule } from '@angular/router'; 
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [],
+  imports: [ HttpClientModule, RouterModule],
+  providers: [UserService],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
 
   private router = inject(Router);
-  users = [
-    {
-      "id": 1,
-      "name": "Leanne Graham",
-      "username": "Bret",
-      "email": "Sincere@april.biz",
-      "address": {
-        "street": "Kulas Light",
-        "suite": "Apt. 556",
-        "city": "Gwenborough",
-        "zipcode": "92998-3874",
-        "geo": {
-          "lat": "-37.3159",
-          "lng": "81.1496"
-        }
-      },
-      "phone": "1-770-736-8031 x56442",
-      "website": "hildegard.org",
-      "company": {
-        "name": "Romaguera-Crona",
-        "catchPhrase": "Multi-layered client-server neural-net",
-        "bs": "harness real-time e-markets"
-      }
-    },
-    {
-      "id": 2,
-      "name": "Ervin Howell",
-      "username": "Antonette",
-      "email": "Shanna@melissa.tv",
-      "address": {
-        "street": "Victor Plains",
-        "suite": "Suite 879",
-        "city": "Wisokyburgh",
-        "zipcode": "90566-7771",
-        "geo": {
-          "lat": "-43.9509",
-          "lng": "-34.4618"
-        }
-      },
-      "phone": "010-692-6593 x09125",
-      "website": "anastasia.net",
-      "company": {
-        "name": "Deckow-Crist",
-        "catchPhrase": "Proactive didactic contingency",
-        "bs": "synergize scalable supply-chains"
-      }
-    }
-  ]
+  private userService = inject(UserService);
+  users: User[] = [];
+  errorMessage: string = 'Cannot Fetch User'; // To handle errors
 
+
+  ngOnInit() {
+    this.userService.getUsers().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.users = data;
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Failed to fetch users.';
+      }
+    });
+  }
+
+  deleteUser(userId: any) {
+    this.userService.deleteUser(userId).subscribe();
+   
+    }
+  
 }
+ 
