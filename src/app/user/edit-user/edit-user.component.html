@@ -6,10 +6,16 @@
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="main-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Home</li>
-                <li class="breadcrumb-item">User</li>
-                <li class="breadcrumb-item active" aria-current="page">Edit User</li>
-            </ol>
+                <li class="breadcrumb-item">
+                  <a [routerLink]="['/users']" class="text-info" data-toggle="tooltip" title="home">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a [routerLink]="['/user', user.id]" class="text-info" data-toggle="tooltip" title="user">User</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Edit User
+                </li>
+              </ol>              
         </nav>
         <!-- /Breadcrumb -->
     

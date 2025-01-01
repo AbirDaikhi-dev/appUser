@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { User } from '../user-modal';
 import { UserService } from '../../services/userService/user.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-user',
   standalone: true,
-  imports: [UserFormComponent, HttpClientModule],
+  imports: [UserFormComponent, HttpClientModule, RouterModule],
   providers: [UserService],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss'

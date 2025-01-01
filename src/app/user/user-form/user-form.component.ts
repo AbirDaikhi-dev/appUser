@@ -24,19 +24,19 @@ export class UserFormComponent implements OnInit {
   private userService = inject(UserService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
-  private snackBar =  inject(MatSnackBar);
+  private snackBar = inject(MatSnackBar);
   private dialog = inject(MatDialog);
 
 
 
-  errorMessage: string = 'Cannot Fetch User'; 
+  errorMessage: string = 'Cannot Fetch User';
 
   userForm!: FormGroup;
   userId!: any | undefined;
   alertMessage: string | null = null;
   alertType: 'success' | 'error' | null = null;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     console.log(this.user)
@@ -70,8 +70,8 @@ export class UserFormComponent implements OnInit {
       name: [user.name || '', [Validators.required]],
       username: [user.username || '', [Validators.required]],
       email: [user.email || '', [Validators.required, Validators.email]],
-      password: [user.password || '', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
+      password: ['', []],
+      confirmPassword: ['', []],
       street: [user?.address?.street || '', [Validators.required]],
       suite: [user?.address?.suite || '', [Validators.required]],
       city: [user?.address?.city || '', [Validators.required]],
@@ -87,44 +87,111 @@ export class UserFormComponent implements OnInit {
       // Custom validator to check if password and confirmPassword match
       validator: this.passwordMatchValidator
     });
+    
+    // Conditionally apply required validators for password and confirmPassword
+    if (this.mode === 'create') {
+      this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
+      this.userForm.get('confirmPassword')?.setValidators([Validators.required]);
+    } else {
+      // Clear validators if mode is not 'create'
+      this.userForm.get('password')?.clearValidators();
+      this.userForm.get('confirmPassword')?.clearValidators();
+    }
+    
+    // Update the form status (if needed)
+    this.userForm.updateValueAndValidity();
+    
   }
+    
 
   passwordMatchValidator(group: FormGroup) {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { mismatch: true };
-  }
-
-  submitUserForm(): void {
-    const users = this.userService.getAllUsers(); // Get the list of existing users (for UUID generation)
   
-    const user = this.userService.setUserObject(this.userForm.value, users); // Get user with UUID and hashed password
-  
-    if (this.userId) {
-      // Update user if an ID exists
-      this.userService.updateUser(this.userId, user).subscribe({
-        next: () => {
-          this.showAlert('User updated successfully!', 'success');
-        },
-        error: () => {
-          this.showAlert('Failed to update user.', 'error');
-        },
-      });
+    if (password !== confirmPassword) {
+      group.get('confirmPassword')?.setErrors({ mismatch: true });
+      return { mismatch: true };
     } else {
-      // Add user if no ID exists (new user)
-      this.userService.addUser(user).subscribe({
-        next: () => {
-          this.showAlert('User created successfully!', 'success');
-          this.userForm.reset();
-        },
-        error: () => {
-          this.showAlert('Failed to create user.', 'error');
-        },
-      });
+      group.get('confirmPassword')?.setErrors(null);
+      return null;
     }
   }
   
+
+  submitUserForm(): void {
+    if (this.userForm.valid) {
+
+    if (this.mode === 'create') {
+      const userData = this.userService.setUserObject(this.userForm.value);
+              // Add user if no ID exists (new user)
+              this.userService.addUser(userData).subscribe({
+                next: () => {
+                  this.snackBar.open('User created successfully', 'Close', {
+                    duration: 3000,
+                    panelClass: ['snackbar-success'],
+                  });
+                  this.userForm.reset();
+                  this.router.navigate(['/users']);
+
+                },
+                error: () => {
+                  this.snackBar.open('Failed to create user.', 'Close', {
+                    duration: 3000,
+                    panelClass: ['snackbar-error'],
+                  });
+                },
+              });
+    } else {
+      const userData = this.userService.setUserObject(this.userForm.value, this.user?.id);
+      this.userService.updateUser(this.user?.id, userData).subscribe({
+        next: () => {
+          this.snackBar.open('User updated successfully', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-success'],
+          });
+          this.router.navigate(['/users']);
+        },
+        error: () => {
+          this.snackBar.open('Failed to update user.', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-error'],
+          });
+        },
+      });
+    }
+
+    } else {
+      // Highlight invalid fields and display a global error message
+      this.markAllAsTouched(); // Mark all controls as touched to trigger validation messages
+      this.showAlert('Please correct the errors in the form.', 'error');
+    }
+  }
   
+  /**
+   * Marks all form controls as touched to display validation errors.
+   */
+  private markAllAsTouched(): void {
+    Object.keys(this.userForm.controls).forEach(field => {
+      const control = this.userForm.get(field);
+      if (control) {
+        control.markAsTouched({ onlySelf: true });
+      }
+    });
+  
+    // Handle nested form controls (like address and company)
+    ['address', 'geo', 'company'].forEach(groupName => {
+      const group = this.userForm.get(groupName) as FormGroup;
+      if (group) {
+        Object.keys(group.controls).forEach(field => {
+          const control = group.get(field);
+          if (control) {
+            control.markAsTouched({ onlySelf: true });
+          }
+        });
+      }
+    });
+  }
+
 
   showAlert(message: string, type: 'success' | 'error') {
     this.alertMessage = message;
@@ -138,36 +205,36 @@ export class UserFormComponent implements OnInit {
     this.alertMessage = null;
     this.alertType = null;
   }
-  
-  editUser(user: any) {
-      this.router.navigate(['/edit-user', user.id]);
-    }
 
-    deleteUser(userId: any) {
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        width: '300px',
-        data: { message: 'Are you sure you want to delete this user?' },
-      });
-  
-      dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-        if (confirmed) {
-          this.userService.deleteUser(userId).subscribe({
-            next: () => {
-              this.snackBar.open('User deleted successfully!', 'Close', {
-                duration: 3000,
-                panelClass: ['snackbar-success'],
-              });
-              this.router.navigate(['/users']);
-            },
-            error: (err) => {
-              console.error(err);
-              this.snackBar.open('Error deleting user!', 'Close', {
-                duration: 3000,
-                panelClass: ['snackbar-error'],
-              });
-            },
-          });
-        }
-      });
-    }
+  editUser(user: any) {
+    this.router.navigate(['/edit-user', user.id]);
+  }
+
+  deleteUser(userId: any) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: { message: 'Are you sure you want to delete this user?' },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.userService.deleteUser(userId).subscribe({
+          next: () => {
+            this.snackBar.open('User deleted successfully!', 'Close', {
+              duration: 3000,
+              panelClass: ['snackbar-success'],
+            });
+            this.router.navigate(['/users']);
+          },
+          error: (err) => {
+            console.error(err);
+            this.snackBar.open('Error deleting user!', 'Close', {
+              duration: 3000,
+              panelClass: ['snackbar-error'],
+            });
+          },
+        });
+      }
+    });
+  }
 }

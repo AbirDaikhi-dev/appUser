@@ -51,18 +51,13 @@ export class UserService {
   }
   
 
-  setUserObject(user: any, users: User[]): User {
+  setUserObject(user: any, userId?: any): User {
     const newId = uuidv4(); // Generate a new UUID for the user id
-  
-    // Hash the password using bcrypt
-    const hashedPassword = bcrypt.hashSync(user.password, 10); // 10 is the saltRounds (you can adjust it)
-  
-    return {
-      id: newId,  // Use the generated UUID
+    const userObject: User = {
+      id: user.id ? userId : newId,
       name: user.name,
       username: user.username,
       email: user.email,
-      password: hashedPassword,  // Store the hashed password
       phone: user.phone,
       website: user.website,
       company: {
@@ -81,5 +76,11 @@ export class UserService {
         }
       }
     };
+    
+    if (user.password) {
+      userObject.password = bcrypt.hashSync(user.password, 10);  // Store the hashed password
+    }
+  
+    return userObject;
   }
 }

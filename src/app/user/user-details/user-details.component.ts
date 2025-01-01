@@ -2,13 +2,13 @@ import { Component, inject } from '@angular/core';
 import { UserService } from '../../services/userService/user.service';
 import { HttpClientModule } from '@angular/common/http';
 import { User } from '../user-modal';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserFormComponent } from '../user-form/user-form.component';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,  
-  imports: [ HttpClientModule, UserFormComponent],
+  imports: [ HttpClientModule, UserFormComponent, RouterModule],
   providers: [UserService],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
