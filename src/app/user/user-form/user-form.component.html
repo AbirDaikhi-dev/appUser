@@ -1,7 +1,6 @@
 <div class="row gutters-sm">
-    @if (mode != 'create' && user) {
     <!-- Profile Sidebar -->
-    <div class="col-md-4 mb-3">
+    <div *ngIf="mode !== 'create' && user" class="col-md-4 mb-3">
         <div class="card shadow-sm">
             <div class="card-header">Profile Picture</div>
             <div class="card-body text-center">
@@ -10,116 +9,169 @@
                     <h4 class="font-weight-bold text-primary">{{ user.name }}</h4>
                     <p class="text-muted">{{ user.company.name }}</p>
                     <p class="text-secondary mb-1">{{ user.website }}</p>
-                    @if (mode == 'details') {
-                    <button class="btn btn-outline-primary me-2 mt-3" (click)="editUser(user)">Edit</button>
-                    }
+                    <button *ngIf="mode === 'details'" class="btn btn-outline-primary me-2 mt-3"
+                        (click)="editUser(user)">Edit</button>
                     <button class="btn btn-outline-danger mt-3" (click)="deleteUser(user.id)">Delete</button>
                 </div>
             </div>
         </div>
     </div>
-    }
+
+    <!-- User Form Section -->
     <div class="col-xl-8">
-        <!-- Edit User Form -->
         <div class="card mb-4">
-            <div class="card-header"> {{ mode === 'edit' ? 'Edit User' : mode === 'create' ? 'Create User' : 'User Details' }}</div>
+            <div class="card-header">
+                {{ mode === 'edit' ? 'Edit User' : mode === 'create' ? 'Create User' : 'User Details' }}
+            </div>
             <div class="card-body">
-
-
                 <form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
-                    <!-- Form Group (name)-->
+                    <!-- Form Group (Name) -->
                     <div class="mb-3">
                         <label class="small mb-1" for="inputName">Name</label>
                         <input class="form-control" id="inputName" formControlName="name" type="text">
+                        <div *ngIf="userForm.get('name')?.touched && userForm.get('name')?.invalid" class="text-danger">
+                            Name is required.
+                        </div>
                     </div>
-                    <!-- Form Group (username)-->
+
+                    <!-- Form Group (Username) -->
                     <div class="mb-3">
                         <label class="small mb-1" for="inputUsername">Username</label>
                         <input class="form-control" id="inputUsername" formControlName="username" type="text">
+                        <div *ngIf="userForm.get('username')?.touched && userForm.get('username')?.invalid"
+                            class="text-danger">
+                            Username is required.
+                        </div>
                     </div>
-                    <!-- Form Group (email)-->
+
+                    <!-- Form Group (Email) -->
                     <div class="mb-3">
                         <label class="small mb-1" for="inputEmail">Email</label>
                         <input class="form-control" id="inputEmail" formControlName="email" type="email">
+                        <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid"
+                            class="text-danger">
+                            <div *ngIf="userForm.get('email')?.hasError('required')">Email is required.</div>
+                            <div *ngIf="userForm.get('email')?.hasError('email')">Email must be valid.</div>
+                        </div>
                     </div>
-                    @if (mode != 'details') {
-                    <!-- Form Group (Password)-->
-                    <div class="mb-3">
-                        <label class="small mb-1" for="inputPassword">Password</label>
-                        <input class="form-control" id="inputPassword" formControlName="password" type="password">
+
+                    <!-- Conditional Form Fields -->
+                    <div *ngIf="mode !== 'details'">
+                        <!-- Password Field -->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputPassword">{{ mode === 'edit' ? 'New Password' : 'Password' }}</label>
+                            <input class="form-control" id="inputPassword" formControlName="password" type="password">
+                            <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid">
+                                <div class="text-danger" *ngIf="userForm.get('password')?.hasError('required')">Password is required.</div>
+                                <div class="text-danger" *ngIf="userForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</div>
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password Field -->
+                        <div class="mb-3">
+                            <label class="small mb-1" for="inputConfirmPassword">{{ mode === 'edit' ? 'New Confirm Password' : 'Confirm Password' }}</label>
+                            <input class="form-control" id="inputConfirmPassword" formControlName="confirmPassword" type="password">
+                            <div *ngIf="userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid">
+                                <div class="text-danger" *ngIf="userForm.get('confirmPassword')?.hasError('required')">Confirm password is required.</div>
+                                <div class="text-danger" *ngIf="userForm.get('confirmPassword')?.hasError('mismatch')">Passwords do not match.</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
-                        <input class="form-control" id="inputConfirmPassword" formControlName="confirmPassword" type="password">
-                    </div>
-                }
+
                     <!-- Address Section -->
-                    <h4 class="mb-0 font-weight-bold"><hr>Address<hr></h4>
+                    <h4 class="mb-0 font-weight-bold">
+                        <hr>Address
+                        <hr>
+                    </h4>
                     <div class="row gx-3 mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputStreet">Street</label>
                             <input class="form-control" id="inputStreet" formControlName="street" type="text">
+                            <div *ngIf="userForm.get('street')?.touched && userForm.get('street')?.invalid" class="text-danger">Street is required.</div>
                         </div>
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputSuite">Suite</label>
                             <input class="form-control" id="inputSuite" formControlName="suite" type="text">
+                            <div *ngIf="userForm.get('suite')?.touched && userForm.get('suite')?.invalid" class="text-danger">Suite is required.</div>
                         </div>
                     </div>
+
+                    <!-- City and Zipcode -->
                     <div class="row gx-3 mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputCity">City</label>
                             <input class="form-control" id="inputCity" formControlName="city" type="text">
+                            <div *ngIf="userForm.get('city')?.touched && userForm.get('city')?.invalid" class="text-danger">City is required.</div>
                         </div>
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputZipcode">Zipcode</label>
                             <input class="form-control" id="inputZipcode" formControlName="zipcode" type="text">
+                            <div *ngIf="userForm.get('zipcode')?.touched && userForm.get('zipcode')?.invalid" class="text-danger">Zipcode is required.</div>
                         </div>
                     </div>
+
+                    <!-- Geo Coordinates -->
                     <div class="row gx-3 mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputLatitude">Latitude</label>
                             <input class="form-control" id="inputLatitude" formControlName="latitude" type="text">
+                            <div *ngIf="userForm.get('latitude')?.touched && userForm.get('latitude')?.invalid" class="text-danger">Latitude is required.</div>
                         </div>
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputLongitude">Longitude</label>
                             <input class="form-control" id="inputLongitude" formControlName="longitude" type="text">
+                            <div *ngIf="userForm.get('longitude')?.touched && userForm.get('longitude')?.invalid" class="text-danger">Longitude is required.</div>
                         </div>
                     </div>
-                    <hr>
+
                     <!-- Phone and Website -->
                     <div class="mb-3">
                         <label class="small mb-1" for="inputPhone">Phone</label>
                         <input class="form-control" id="inputPhone" formControlName="phone" type="text">
+                        <div *ngIf="userForm.get('phone')?.touched && userForm.get('phone')?.invalid" class="text-danger">Phone is required.</div>
                     </div>
                     <div class="mb-3">
                         <label class="small mb-1" for="inputWebsite">Website</label>
                         <input class="form-control" id="inputWebsite" formControlName="website" type="text">
+                        <div *ngIf="userForm.get('website')?.touched && userForm.get('website')?.invalid" class="text-danger">Website is required.</div>
                     </div>
+
                     <!-- Company Section -->
-                    <h4 class="mb-0 font-weight-bold"><hr>Company<hr></h4>
+                    <h4 class="mb-0 font-weight-bold">
+                        <hr>Company
+                        <hr>
+                    </h4>
                     <div class="row gx-3 mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputCompanyName">Company Name</label>
                             <input class="form-control" id="inputCompanyName" formControlName="companyName" type="text">
+                            <div *ngIf="userForm.get('companyName')?.touched && userForm.get('companyName')?.invalid" class="text-danger">Company name is required.</div>
+                       
                         </div>
                         <div class="col-md-6">
-                            <label class="small mb-1" for="inputCatchPhrase">CatchPhrase</label>
+                            <label class="small mb-1" for="inputCatchPhrase">Catchphrase</label>
                             <input class="form-control" id="inputCatchPhrase" formControlName="catchPhrase" type="text">
+                            <div *ngIf="userForm.get('catchPhrase')?.touched && userForm.get('catchPhrase')?.invalid" class="text-danger">Catchphrase is required.</div>
                         </div>
                     </div>
                     <div class="row gx-3 mb-3">
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputBS">BS</label>
                             <input class="form-control" id="inputBS" formControlName="bs" type="text">
+                            <div *ngIf="userForm.get('bs')?.touched && userForm.get('bs')?.invalid" class="text-danger">BS is required.</div>
                         </div>
                     </div>
-                                                        <!-- Alert Section -->
-                <div *ngIf="alertMessage" class="alert alert-dismissible fade show" [ngClass]="{'alert-success': alertType === 'success', 'alert-danger': alertType === 'error'}" role="alert">
-                    {{ alertMessage }}
-                    <button type="button" class="btn-close" (click)="closeAlert()" aria-label="Close"></button>
-                </div>
-                    <button class="btn btn-primary mt-3" type="submit">Save Changes</button>
 
+                    <!-- Alert Section -->
+                    <div *ngIf="alertMessage" class="alert alert-dismissible fade show"
+                        [ngClass]="{'alert-success': alertType === 'success', 'alert-danger': alertType === 'error'}"
+                        role="alert">
+                        {{ alertMessage }}
+                        <button type="button" class="btn-close" (click)="closeAlert()" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="btn btn-primary mt-3" type="submit">Save Changes</button>
                 </form>
             </div>
         </div>

@@ -173,3 +173,17 @@ body{
 .user-dashboard-info-box .candidates-list .thumb {
     margin-right: 20px;
 }
+
+.add-btn {
+    font-size: 20px;
+    border: none;
+    background-color: #28a745; /* Green background for the button */
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .add-btn:hover {
+    background-color: #218838; /* Darker green when hovered */
+  }
