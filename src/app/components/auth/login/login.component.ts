@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth/auth.service';
 import { HttpClientModule } from '@angular/common/http';
-
+ 
 @Component({
   selector: 'app-login',
   standalone: true,
