@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -33,13 +32,7 @@ export class LoginComponent {
     const { email, password } = this.loginForm.value;
 
     // Call the login method in AuthService
-    this.authService.login(email, password).pipe(
-      catchError((error) => {
-        console.error('Login error:', error);
-        this.errorMessage = 'Login failed. Please try again.';  // Set the error message
-        return [];
-      })
-    ).subscribe((response) => {
+    this.authService.login(email, password).subscribe((response) => {
       if (response.error) {
         // If there's an error (invalid credentials), set the error message
         this.errorMessage = response.error;
@@ -47,7 +40,7 @@ export class LoginComponent {
         // If login is successful, clear any previous errors and store the user
         this.errorMessage = null;  // Clear the error message
         this.authService.setUser(response);
-        this.router.navigate(['/users']);
+        this.router.navigate(['/user', localStorage.getItem('userId')]);
       }
     });
   }

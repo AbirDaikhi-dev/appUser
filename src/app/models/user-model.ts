@@ -10,6 +10,7 @@ export interface User {
     phone: string;
     website: string;
     company: Company;
+    role: string;
   }
 
 export interface Geo {
