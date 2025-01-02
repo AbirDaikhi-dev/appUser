@@ -74,13 +74,19 @@ export class UserService {
           lat: user.latitude,
           lng: user.longitude
         }
-      }
+      }, 
+      role : 'user'
     };
     
     if (user.password) {
-      userObject.password = bcrypt.hashSync(user.password, 10);  // Store the hashed password
+      userObject.password = this.hashPassword(user.password);  // Store the hashed password
     }
   
     return userObject;
+  }
+  hashPassword(password: string): string {
+    const salt = bcrypt.genSaltSync(10); // Generate a salt
+    const hashedPassword = bcrypt.hashSync(password, salt); // Hash the password
+    return hashedPassword;
   }
 }

@@ -1,46 +1,36 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light py-4">
     <div class="container-fluid">
-        <a class="navbar-brand" href="https://library.livecanvas.com/sections/">
+        <a class="navbar-brand" href="#">
             <img class="img-fluid" src="/assets/img/user-icon.png" alt="" width="48px" height="48px">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav_lc" aria-controls="nav_lc" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="nav_lc">
-            <ul class="d-none d-lg-flex navbar-nav mx-auto my-3 my-lg-0 position-absolute top-50 start-50 translate-middle">
-                <li class="nav-item me-4">
-                    <a [routerLink]="['/users']" class="nav-link" data-toggle="tooltip" title="home"><i class="fas fa-home"></i>Home</a>
-
-                </li>
-                <li class="nav-item me-4">
-                    <a [routerLink]="['/users']" class="nav-link" data-toggle="tooltip" title="home"><i class="fas fa-users"></i> Users List
-                    </a>
-                </li>
-                <li class="nav-item me-4">
-                    <a [routerLink]="['/add-user']" class="nav-link" data-toggle="tooltip" title="home"><i class="fas fa-user-plus"></i> Add User
-                    </a>
-                </li>
-            </ul>
-            <ul class="navbar-nav my-3 my-lg-0 d-lg-none">
-                <li class="nav-item me-4">
-                    <a [routerLink]="['/login']" class="nav-link">
+            <ul class="navbar-nav mx-auto my-3 my-lg-0 position-absolute top-50 start-50 translate-middle">
+                <li class="nav-item me-4" *ngIf="isLoggedIn">
+                    <a [routerLink]="['/users']" class="nav-link" data-toggle="tooltip" title="home">
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
-                <li class="nav-item me-4">
-                    <a [routerLink]="['/users']" class="nav-link" href="#">
+                <li class="nav-item me-4" *ngIf="isAdmin">
+                    <a [routerLink]="['/users']" class="nav-link" data-toggle="tooltip" title="Users List">
                         <i class="fas fa-users"></i> Users List
                     </a>
                 </li>
-                <li class="nav-item me-4">
-                    <a [routerLink]="['/add-user']" class="nav-link">
+                <li class="nav-item me-4" *ngIf="isAdmin">
+                    <a [routerLink]="['/add-user']" class="nav-link" data-toggle="tooltip" title="Add User">
                         <i class="fas fa-user-plus"></i> Add User
                     </a>
                 </li>
             </ul>
             <div class="ms-lg-auto">
-                <a [routerLink]="['/login']" class="btn btn-outline-primary me-2">Sign In</a>
-                <a [routerLink]="['/add-user']" class="btn btn-primary" href="#">Sign Up</a>
+                <!-- Show Sign In/Sign Up if the user is not logged in -->
+                <a [routerLink]="['/login']" class="btn btn-outline-primary me-2" *ngIf="!isLoggedIn">Sign In</a>
+                <a [routerLink]="['/add-user']" class="btn btn-primary" *ngIf="!isLoggedIn">Sign Up</a>
+
+                <!-- Show Logout if the user is logged in -->
+                <button class="btn btn-danger" (click)="logout()" *ngIf="isLoggedIn">Logout</button>
             </div>
         </div>
     </div>
