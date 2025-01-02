@@ -32,7 +32,6 @@ throw new Error('Method not implemented.');
   ngOnInit() {
     this.userService.getUsers().subscribe({
       next: (data) => {
-        console.log(data);
         this.users = data;
       },
       error: (err) => {

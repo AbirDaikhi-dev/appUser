@@ -23,8 +23,7 @@ export class UserDetailsComponent {
  
    ngOnInit() {
     this.router.params.subscribe((params) => {
-      const userId = params['id']; 
-      console.log(userId);
+      const userId = params['id'];
       if (userId) {
         this.fetchUserDetail(userId);
       }

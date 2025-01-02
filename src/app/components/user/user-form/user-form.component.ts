@@ -39,7 +39,6 @@ export class UserFormComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log(this.user)
     this.activatedRoute.params.subscribe((params) => {
       const userId = params['id'];
       if (userId) {
@@ -53,7 +52,7 @@ export class UserFormComponent implements OnInit {
       this.userForm.disable();
     }
   }
-  fetchUserDetail(userId: number) {
+  fetchUserDetail(userId: any) {
     this.userService.getUser(userId).subscribe({
       next: (data) => {
         this.user = data;
@@ -70,7 +69,7 @@ export class UserFormComponent implements OnInit {
       name: [user.name || '', [Validators.required]],
       username: [user.username || '', [Validators.required]],
       email: [user.email || '', [Validators.required, Validators.email]],
-      password: ['', []],
+      password: [user.password || '', []],
       confirmPassword: ['', []],
       street: [user?.address?.street || '', [Validators.required]],
       suite: [user?.address?.suite || '', [Validators.required]],

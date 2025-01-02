@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import * as bcrypt from 'bcryptjs';  // Optional for front-end password hashing (not recommended for production)
+import * as bcrypt from 'bcryptjs'; 
 
 @Injectable({
   providedIn: 'root',

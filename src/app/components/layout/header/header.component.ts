@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // window.location.reload();
     // Subscribe to the user observable to get the latest state
     this.authSubscription = this.authService.currentUser.subscribe((user) => {
       if (user) {
